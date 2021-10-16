@@ -1,0 +1,63 @@
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="asteroid"
+            type="com.udacity.asteroidradar.Asteroid" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="20dp">
+
+        <LinearLayout
+            android:id="@+id/asteroid_codename_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/asteroid_codename"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight=".98"
+                android:text="@{asteroid.codename}"
+                android:textColor="@android:color/white"
+                tools:text="Asteroid Codename"
+                tools:textColor="@color/colorPrimary" />
+
+            <ImageView
+                android:id="@+id/is_asteroid_hazardous"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:layout_weight=".02"
+                app:statusIcon="@{asteroid.potentiallyHazardous}"
+                tools:src="@drawable/ic_status_potentially_hazardous" />
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/asteroid_date"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginTop="5dp"
+            android:text="@{asteroid.closeApproachDate}"
+            android:textColor="@android:color/white"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/asteroid_codename_layout"
+            tools:text="Asteroid Date"
+            tools:textColor="@color/colorPrimary" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>
