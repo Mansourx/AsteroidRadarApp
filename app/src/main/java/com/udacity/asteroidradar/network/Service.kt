@@ -1,9 +1,10 @@
-package com.udacity.asteroidradar.api
+package com.udacity.asteroidradar.network
 
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import com.udacity.asteroidradar.Constants
 import com.udacity.asteroidradar.PictureOfDay
+import kotlinx.coroutines.Deferred
 import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
@@ -25,6 +26,15 @@ import retrofit2.http.Query
 private val moshi = Moshi.Builder()
     .add(KotlinJsonAdapterFactory())
     .build()
+
+
+///**
+// * A retrofit service to fetch a Asteroids playlist.
+// */
+//interface AsteroidService {
+//    @GET("devbytes.json")
+//    fun getAsteroidsListAsync(): Deferred<NetworkAsteroidContainer>
+//}
 
 
 /**
@@ -50,6 +60,9 @@ interface AsteroidApiService {
     fun getTodayImage(
         @Query(Constants.API_KEY_NAME) apiKey: String = Constants.API_KEY
     ): Call<PictureOfDay>
+
+    @GET("asteroidsradar.json")
+    fun getAsteroidsListAsync(): Deferred<NetworkAsteroidContainer>
 }
 
 /**

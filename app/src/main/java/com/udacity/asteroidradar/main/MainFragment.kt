@@ -11,7 +11,7 @@ import com.squareup.picasso.Picasso
 import com.udacity.asteroidradar.PictureOfDay
 import com.udacity.asteroidradar.R
 import com.udacity.asteroidradar.databinding.FragmentMainBinding
-import com.udacity.asteroidradar.db.AsteroidDatabase
+import com.udacity.asteroidradar.db.getDatabase
 import kotlinx.android.synthetic.main.fragment_main.*
 
 class MainFragment : Fragment() {
@@ -25,7 +25,7 @@ class MainFragment : Fragment() {
 
         val binding = FragmentMainBinding.inflate(inflater)
         val application = requireNotNull(this.activity).application
-        val database = AsteroidDatabase.getInstance(application).asteroidDatabaseDao
+        val database = getDatabase(application)
         val viewModelFactory = MainViewModelFactory(database, application)
         viewModel = ViewModelProvider(this, viewModelFactory).get(MainViewModel::class.java)
 
@@ -35,7 +35,7 @@ class MainFragment : Fragment() {
             viewModel.displayAsteroid(it)
         })
 
-        viewModel.navigateToAsteroidDetails.observe(viewLifecycleOwner, Observer { _asteroid ->
+        viewModel.navigateToDatabaseAsteroidDetails.observe(viewLifecycleOwner, Observer { _asteroid ->
             _asteroid?.let {
                 this.findNavController()
                     .navigate(MainFragmentDirections.actionShowDetail(_asteroid))

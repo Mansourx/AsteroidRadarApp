@@ -5,11 +5,12 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.udacity.asteroidradar.Asteroid
+import com.udacity.asteroidradar.db.DatabaseAsteroid
 import com.udacity.asteroidradar.PictureOfDay
-import com.udacity.asteroidradar.api.AsteroidApi
-import com.udacity.asteroidradar.api.parseAsteroidsJsonResult
+import com.udacity.asteroidradar.network.AsteroidApi
+import com.udacity.asteroidradar.network.parseAsteroidsJsonResult
 import com.udacity.asteroidradar.db.AsteroidDatabaseDao
+import com.udacity.asteroidradar.db.DatabaseAsteroids
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -19,22 +20,22 @@ import retrofit2.Callback
 import retrofit2.Response
 
 
-class MainViewModel(private val database: AsteroidDatabaseDao, application: Application) :
+class MainViewModel(private val database: DatabaseAsteroids, application: Application) :
     AndroidViewModel(application) {
 
     private var _networkFailure = MutableLiveData<String>()
     val netWorkFailure: LiveData<String>
         get() = _networkFailure
 
-    private var _asteroids = MutableLiveData<List<Asteroid>?>()
-    val asteroids = database.getAllAsteroids()
+    private var _asteroids = MutableLiveData<List<DatabaseAsteroid>?>()
+    val asteroids = database.asteroidsDao.getAllAsteroids()
 
     private val _pictureOfTheDay = MutableLiveData<PictureOfDay>()
     val pictureOfTheDay: LiveData<PictureOfDay>
         get() = _pictureOfTheDay
 
-    private val _navigateToAsteroidDetails = MutableLiveData<Asteroid?>()
-    val navigateToAsteroidDetails: MutableLiveData<Asteroid?>
+    private val _navigateToAsteroidDetails = MutableLiveData<DatabaseAsteroid?>()
+    val navigateToDatabaseAsteroidDetails: MutableLiveData<DatabaseAsteroid?>
         get() = _navigateToAsteroidDetails
 
     init {
@@ -71,20 +72,19 @@ class MainViewModel(private val database: AsteroidDatabaseDao, application: Appl
         })
     }
 
-    fun displayAsteroid(asteroid: Asteroid) {
-        _navigateToAsteroidDetails.value = asteroid
+    fun displayAsteroid(databaseAsteroid: DatabaseAsteroid) {
+        _navigateToAsteroidDetails.value = databaseAsteroid
     }
 
     fun displayAsteroidCompleted() {
         _navigateToAsteroidDetails.value = null
     }
 
-    private suspend fun insert(asteroids: List<Asteroid>?) {
+    private suspend fun insert(databaseAsteroids: List<DatabaseAsteroid>?) {
         withContext(Dispatchers.IO) {
-            asteroids?.forEach {
-                database.insert(it)
+            databaseAsteroids?.forEach {
+                database.asteroidsDao.insert(it)
             }
         }
     }
-
 }

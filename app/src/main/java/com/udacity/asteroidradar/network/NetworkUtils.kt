@@ -1,17 +1,17 @@
-package com.udacity.asteroidradar.api
+package com.udacity.asteroidradar.network
 
 import android.annotation.SuppressLint
 import android.os.Build
 import androidx.annotation.RequiresApi
-import com.udacity.asteroidradar.Asteroid
+import com.udacity.asteroidradar.db.DatabaseAsteroid
 import com.udacity.asteroidradar.Constants
 import org.json.JSONObject
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
 
-fun parseAsteroidsJsonResult(jsonObject: JSONObject): List<Asteroid> {
-    val asteroidList = mutableListOf<Asteroid>()
+fun parseAsteroidsJsonResult(jsonObject: JSONObject): List<DatabaseAsteroid> {
+    val asteroidList = mutableListOf<DatabaseAsteroid>()
     val nearEarthObjectsJson = jsonObject.getJSONObject("near_earth_objects")
     val dateList = nearEarthObjectsJson.keys()
     val dateListSorted = dateList.asSequence().sorted()
@@ -33,7 +33,7 @@ fun parseAsteroidsJsonResult(jsonObject: JSONObject): List<Asteroid> {
                 .getDouble("astronomical")
             val isPotentiallyHazardous = asteroidJson
                 .getBoolean("is_potentially_hazardous_asteroid")
-            val asteroid = Asteroid(
+            val asteroid = DatabaseAsteroid(
                 id,
                 codename,
                 key,

@@ -4,6 +4,7 @@ import android.app.Application
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.udacity.asteroidradar.db.AsteroidDatabaseDao
+import com.udacity.asteroidradar.db.DatabaseAsteroids
 
 
 /**
@@ -14,7 +15,7 @@ import com.udacity.asteroidradar.db.AsteroidDatabaseDao
 
 
 class MainViewModelFactory(
-    private val dataSource: AsteroidDatabaseDao,
+    private val dataSource: DatabaseAsteroids,
     private val application: Application
 ) : ViewModelProvider.Factory {
     @Suppress("unchecked_cast")
