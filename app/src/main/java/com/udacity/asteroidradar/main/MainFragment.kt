@@ -12,11 +12,14 @@ import com.udacity.asteroidradar.PictureOfDay
 import com.udacity.asteroidradar.R
 import com.udacity.asteroidradar.databinding.FragmentMainBinding
 import com.udacity.asteroidradar.db.getDatabase
+import com.udacity.asteroidradar.domain.Asteroid
 import kotlinx.android.synthetic.main.fragment_main.*
 
 class MainFragment : Fragment() {
 
     private lateinit var viewModel: MainViewModel
+
+    private var asteroidAdapter: AsteroidAdapter? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -25,14 +28,21 @@ class MainFragment : Fragment() {
 
         val binding = FragmentMainBinding.inflate(inflater)
         val application = requireNotNull(this.activity).application
-        val database = getDatabase(application)
-        val viewModelFactory = MainViewModelFactory(database, application)
+     //   val database = getDatabase(application)
+        val viewModelFactory = MainViewModelFactory(application)
         viewModel = ViewModelProvider(this, viewModelFactory).get(MainViewModel::class.java)
 
         binding.viewModel = viewModel
         binding.lifecycleOwner = this
-        binding.asteroidRecycler.adapter = AsteroidAdapter(AsteroidAdapter.OnClickListener {
-            viewModel.displayAsteroid(it)
+//        asteroidAdapter = AsteroidAdapter(AsteroidAdapter.OnClickListener {
+//            viewModel.displayAsteroid(it)
+//        })
+        binding.asteroidRecycler.adapter = asteroidAdapter
+
+        viewModel.asteroidsList.observe(viewLifecycleOwner, Observer<List<Asteroid>> { asteroids ->
+            asteroids?.apply {
+                asteroidAdapter?.asteroids = asteroids
+            }
         })
 
         viewModel.navigateToDatabaseAsteroidDetails.observe(viewLifecycleOwner, Observer { _asteroid ->

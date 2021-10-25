@@ -33,20 +33,18 @@ interface AsteroidDatabaseDao {
     fun getAnAsteroid(): DatabaseAsteroid?
 }
 
-
-@Database(entities = [DatabaseAsteroids::class], version = 1)
-abstract class DatabaseAsteroids : RoomDatabase() {
+@Database(entities = [DatabaseAsteroid::class], version = 1)
+abstract class AsteroidsDatabase : RoomDatabase() {
     abstract val asteroidsDao: AsteroidDatabaseDao
 }
+private lateinit var INSTANCE: AsteroidsDatabase
 
-private lateinit var INSTANCE: DatabaseAsteroids
-
-fun getDatabase(context: Context): DatabaseAsteroids {
-    synchronized(DatabaseAsteroids::class.java) {
+fun getDatabase(context: Context): AsteroidsDatabase {
+    synchronized(AsteroidsDatabase::class.java) {
         if (!::INSTANCE.isInitialized) {
             INSTANCE = Room.databaseBuilder(
                 context.applicationContext,
-                DatabaseAsteroids::class.java,
+                AsteroidsDatabase::class.java,
                 "asteroids_history_database"
             ).build()
         }

@@ -5,12 +5,12 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.udacity.asteroidradar.db.DatabaseAsteroid
 import com.udacity.asteroidradar.PictureOfDay
+import com.udacity.asteroidradar.db.DatabaseAsteroid
+import com.udacity.asteroidradar.db.getDatabase
 import com.udacity.asteroidradar.network.AsteroidApi
 import com.udacity.asteroidradar.network.parseAsteroidsJsonResult
-import com.udacity.asteroidradar.db.AsteroidDatabaseDao
-import com.udacity.asteroidradar.db.DatabaseAsteroids
+import com.udacity.asteroidradar.repository.AsteroidsRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -20,8 +20,11 @@ import retrofit2.Callback
 import retrofit2.Response
 
 
-class MainViewModel(private val database: DatabaseAsteroids, application: Application) :
+class MainViewModel(application: Application) :
     AndroidViewModel(application) {
+
+    private val database = getDatabase(application)
+    private val asteroidsRepository = AsteroidsRepository(database)
 
     private var _networkFailure = MutableLiveData<String>()
     val netWorkFailure: LiveData<String>
@@ -38,10 +41,17 @@ class MainViewModel(private val database: DatabaseAsteroids, application: Applic
     val navigateToDatabaseAsteroidDetails: MutableLiveData<DatabaseAsteroid?>
         get() = _navigateToAsteroidDetails
 
+
     init {
+        viewModelScope.launch {
+            asteroidsRepository.refreshAsteroids()
+        }
+
         getPictureOfTheDay()
         pullAsteroidsFromAPi()
     }
+
+    val asteroidsList = asteroidsRepository.asteroids
 
     private fun getPictureOfTheDay() {
         AsteroidApi.retrofitService.getTodayImage().enqueue(object : Callback<PictureOfDay> {
