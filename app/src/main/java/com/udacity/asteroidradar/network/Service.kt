@@ -1,5 +1,6 @@
 package com.udacity.asteroidradar.network
 
+import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import com.udacity.asteroidradar.Constants
@@ -43,6 +44,7 @@ private val moshi = Moshi.Builder()
 private val retrofit = Retrofit.Builder()
     .addConverterFactory(ScalarsConverterFactory.create())
     .addConverterFactory(MoshiConverterFactory.create(moshi))
+    .addCallAdapterFactory(CoroutineCallAdapterFactory())
     // .addConverterFactory(GsonConverterFactory.create())
     .baseUrl(Constants.BASE_URL)
     .build()
@@ -61,8 +63,12 @@ interface AsteroidApiService {
         @Query(Constants.API_KEY_NAME) apiKey: String = Constants.API_KEY
     ): Call<PictureOfDay>
 
-    @GET("asteroidsradar.json")
-    fun getAsteroidsListAsync(): Deferred<NetworkAsteroidContainer>
+    @GET(Constants.ASTEROID_LINK)
+    fun getAsteroidsListAsync(
+        @Query(Constants.START_DATE_KEY) startDate: String = "2015-09-07",
+        @Query(Constants.END_DATE_KEY) endDate: String = "2015-09-08",
+        @Query(Constants.API_KEY_NAME) apiKey: String = Constants.API_KEY
+    ): Deferred<NetworkAsteroidContainer>
 }
 
 /**

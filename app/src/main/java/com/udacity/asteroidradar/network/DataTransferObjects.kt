@@ -23,7 +23,7 @@ import com.udacity.asteroidradar.domain.Asteroid
  * This is to parse first level of our network result which looks like
  *
  * {
- *   "videos": []
+ *   "Asteroids": []
  * }
  */
 @JsonClass(generateAdapter = true)
