@@ -7,8 +7,10 @@ import com.udacity.asteroidradar.db.asDomainModel
 import com.udacity.asteroidradar.domain.Asteroid
 import com.udacity.asteroidradar.network.AsteroidApi
 import com.udacity.asteroidradar.network.asDatabaseModel
+import com.udacity.asteroidradar.network.parseAsteroidsJsonResult
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import org.json.JSONObject
 
 
 /**
@@ -42,8 +44,10 @@ class AsteroidsRepository(private val database: AsteroidsDatabase) {
      */
     suspend fun refreshAsteroids() {
         withContext(Dispatchers.IO) {
-            val asteroidsList = AsteroidApi.retrofitService.getAsteroidsListAsync().await()
-            database.asteroidsDao.insert(*asteroidsList.asDatabaseModel())
+            val asteroidsList = parseAsteroidsJsonResult(
+                JSONObject(AsteroidApi.retrofitService.getAsteroidsListAsync().await())
+            )
+            database.asteroidsDao.insert(*asteroidsList.toTypedArray())
         }
     }
 }

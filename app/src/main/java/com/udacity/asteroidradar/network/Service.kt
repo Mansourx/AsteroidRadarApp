@@ -68,7 +68,7 @@ interface AsteroidApiService {
         @Query(Constants.START_DATE_KEY) startDate: String = "2015-09-07",
         @Query(Constants.END_DATE_KEY) endDate: String = "2015-09-08",
         @Query(Constants.API_KEY_NAME) apiKey: String = Constants.API_KEY
-    ): Deferred<NetworkAsteroidContainer>
+    ): Deferred<String>
 }
 
 /**

@@ -30,7 +30,7 @@ import com.udacity.asteroidradar.domain.Asteroid
 data class NetworkAsteroidContainer(val asteroids: List<NetworkAsteroid>)
 
 /**
- * Videos represent a Asteroid that can be played.
+ * Asteroid represent a Asteroid that can be clicked.
  */
 @JsonClass(generateAdapter = true)
 data class NetworkAsteroid(
