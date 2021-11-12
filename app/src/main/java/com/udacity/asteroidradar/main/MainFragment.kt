@@ -11,8 +11,7 @@ import com.squareup.picasso.Picasso
 import com.udacity.asteroidradar.PictureOfDay
 import com.udacity.asteroidradar.R
 import com.udacity.asteroidradar.databinding.FragmentMainBinding
-import com.udacity.asteroidradar.db.getDatabase
-import com.udacity.asteroidradar.domain.Asteroid
+import com.udacity.asteroidradar.db.DatabaseAsteroid
 import kotlinx.android.synthetic.main.fragment_main.*
 
 class MainFragment : Fragment() {
@@ -28,30 +27,33 @@ class MainFragment : Fragment() {
 
         val binding = FragmentMainBinding.inflate(inflater)
         val application = requireNotNull(this.activity).application
-     //   val database = getDatabase(application)
         val viewModelFactory = MainViewModelFactory(application)
         viewModel = ViewModelProvider(this, viewModelFactory).get(MainViewModel::class.java)
 
         binding.viewModel = viewModel
         binding.lifecycleOwner = this
-//        asteroidAdapter = AsteroidAdapter(AsteroidAdapter.OnClickListener {
-//            viewModel.displayAsteroid(it)
-//        })
+        asteroidAdapter = AsteroidAdapter(AsteroidAdapter.OnClickListener {
+            viewModel.displayAsteroid(it)
+        })
         binding.asteroidRecycler.adapter = asteroidAdapter
 
-        viewModel.asteroidsList.observe(viewLifecycleOwner, Observer<List<Asteroid>> { asteroids ->
-            asteroids?.apply {
-                asteroidAdapter?.asteroids = asteroids
-            }
-        })
+        viewModel.asteroids.observe(
+            viewLifecycleOwner,
+            Observer<List<DatabaseAsteroid>> { asteroids ->
+                asteroids?.apply {
+                    asteroidAdapter?.asteroids = asteroids
+                }
+            })
 
-        viewModel.navigateToDatabaseAsteroidDetails.observe(viewLifecycleOwner, Observer { _asteroid ->
-            _asteroid?.let {
-                this.findNavController()
-                    .navigate(MainFragmentDirections.actionShowDetail(_asteroid))
-                viewModel.displayAsteroidCompleted()
-            }
-        })
+        viewModel.navigateToDatabaseAsteroidDetails.observe(
+            viewLifecycleOwner,
+            Observer { _asteroid ->
+                _asteroid?.let {
+                    this.findNavController()
+                        .navigate(MainFragmentDirections.actionShowDetail(_asteroid))
+                    viewModel.displayAsteroidCompleted()
+                }
+            })
 
         viewModel.netWorkFailure.observe(viewLifecycleOwner, Observer { _message ->
             _message?.let {

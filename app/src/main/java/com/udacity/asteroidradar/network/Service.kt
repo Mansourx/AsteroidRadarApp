@@ -28,16 +28,6 @@ private val moshi = Moshi.Builder()
     .add(KotlinJsonAdapterFactory())
     .build()
 
-
-///**
-// * A retrofit service to fetch a Asteroids playlist.
-// */
-//interface AsteroidService {
-//    @GET("devbytes.json")
-//    fun getAsteroidsListAsync(): Deferred<NetworkAsteroidContainer>
-//}
-
-
 /**
  *  create the retrofit with ScalerConverterFactory and Base_Url
  */
@@ -50,14 +40,6 @@ private val retrofit = Retrofit.Builder()
     .build()
 
 interface AsteroidApiService {
-
-    @GET(Constants.ASTEROID_LINK)
-    fun getAsteroids(
-        @Query(Constants.START_DATE_KEY) startDate: String = "2015-09-07",
-        @Query(Constants.END_DATE_KEY) endDate: String = "2015-09-08",
-        @Query(Constants.API_KEY_NAME) apiKey: String = Constants.API_KEY
-    ): Call<String>
-
     @GET(Constants.IMAGE_OF_DAY_LINK)
     fun getTodayImage(
         @Query(Constants.API_KEY_NAME) apiKey: String = Constants.API_KEY

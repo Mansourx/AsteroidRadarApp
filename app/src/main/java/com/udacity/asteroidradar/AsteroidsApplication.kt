@@ -7,12 +7,12 @@ import com.udacity.asteroidradar.work.RefreshDataWorker
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import java.util.concurrent.TimeUnit
 
 
 /**
  * Created by Ahmad Mansour on 25/10/2021
- * NAMSHI General Trading,
  * Dubai, UAE.
  */
 
@@ -42,7 +42,7 @@ class AsteroidsApplication : Application() {
      */
     override fun onCreate() {
         super.onCreate()
-        // Timber.plant(Timber.DebugTree())
+        Timber.plant(Timber.DebugTree())
         delayedInit()
     }
 

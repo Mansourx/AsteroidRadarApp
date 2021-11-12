@@ -37,6 +37,7 @@ interface AsteroidDatabaseDao {
 abstract class AsteroidsDatabase : RoomDatabase() {
     abstract val asteroidsDao: AsteroidDatabaseDao
 }
+
 private lateinit var INSTANCE: AsteroidsDatabase
 
 fun getDatabase(context: Context): AsteroidsDatabase {

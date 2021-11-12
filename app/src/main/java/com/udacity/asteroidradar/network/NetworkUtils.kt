@@ -3,8 +3,8 @@ package com.udacity.asteroidradar.network
 import android.annotation.SuppressLint
 import android.os.Build
 import androidx.annotation.RequiresApi
-import com.udacity.asteroidradar.db.DatabaseAsteroid
 import com.udacity.asteroidradar.Constants
+import com.udacity.asteroidradar.db.DatabaseAsteroid
 import org.json.JSONObject
 import java.text.SimpleDateFormat
 import java.util.*
