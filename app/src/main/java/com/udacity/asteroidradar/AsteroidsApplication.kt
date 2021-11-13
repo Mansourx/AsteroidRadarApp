@@ -24,6 +24,9 @@ class AsteroidsApplication : Application() {
 
     private val applicationScope = CoroutineScope(Dispatchers.Default)
 
+    // This Constraints used to identify when the worker should work,
+    // like battery, network available, phone is charging... etc
+    // Then we pass it to the `PeriodicWorkRequestBuilder` ....
     private val constraints = Constraints.Builder()
         .setRequiredNetworkType(NetworkType.UNMETERED)
         .setRequiresBatteryNotLow(true)

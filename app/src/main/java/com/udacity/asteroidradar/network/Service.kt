@@ -1,5 +1,7 @@
 package com.udacity.asteroidradar.network
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
@@ -28,6 +30,11 @@ private val moshi = Moshi.Builder()
     .add(KotlinJsonAdapterFactory())
     .build()
 
+
+private val next7DaysFormattedDates: List<String>
+    @RequiresApi(Build.VERSION_CODES.N)
+    get() = getNextSevenDaysFormattedDates()
+
 /**
  *  create the retrofit with ScalerConverterFactory and Base_Url
  */
@@ -47,11 +54,12 @@ interface AsteroidApiService {
 
     @GET(Constants.ASTEROID_LINK)
     fun getAsteroidsListAsync(
-        @Query(Constants.START_DATE_KEY) startDate: String = "2015-09-07",
-        @Query(Constants.END_DATE_KEY) endDate: String = "2015-09-08",
+        @Query(Constants.START_DATE_KEY) startDate: String = next7DaysFormattedDates[0],
+        @Query(Constants.END_DATE_KEY) endDate: String = next7DaysFormattedDates[6],
         @Query(Constants.API_KEY_NAME) apiKey: String = Constants.API_KEY
     ): Deferred<String>
 }
+
 
 /**
  *  we create retrofit using object to expose it to the hole application because

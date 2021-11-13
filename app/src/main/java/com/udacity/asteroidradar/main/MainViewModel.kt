@@ -14,6 +14,7 @@ import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import timber.log.Timber
 
 
 class MainViewModel(application: Application) :
@@ -26,7 +27,7 @@ class MainViewModel(application: Application) :
     val netWorkFailure: LiveData<String>
         get() = _networkFailure
 
-    val asteroids = database.asteroidsDao.getAllAsteroids()
+    val asteroids: LiveData<List<DatabaseAsteroid>> = database.asteroidsDao.getAllAsteroids()
 
     private val _pictureOfTheDay = MutableLiveData<PictureOfDay>()
     val pictureOfTheDay: LiveData<PictureOfDay>
@@ -37,10 +38,15 @@ class MainViewModel(application: Application) :
         get() = _navigateToAsteroidDetails
 
     init {
-        viewModelScope.launch {
-            asteroidsRepository.refreshAsteroids()
-        }
         getPictureOfTheDay()
+
+        viewModelScope.launch {
+            try {
+                asteroidsRepository.refreshAsteroids()
+            } catch (e: Exception) {
+                Timber.e(e.toString())
+            }
+        }
     }
 
     private fun getPictureOfTheDay() {

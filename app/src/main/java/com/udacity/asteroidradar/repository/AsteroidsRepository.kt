@@ -25,9 +25,9 @@ import org.json.JSONObject
 class AsteroidsRepository(private val database: AsteroidsDatabase) {
 
     /**
-     * A playlist of videos that can be shown on the screen.
+     * A list of Asteroids that can be shown on the screen.
      */
-    val asteroids: LiveData<List<Asteroid>> =
+    private val asteroids: LiveData<List<Asteroid>> =
         Transformations.map(database.asteroidsDao.getAllAsteroids()) {
             it.asDomainModel()
         }
@@ -47,6 +47,12 @@ class AsteroidsRepository(private val database: AsteroidsDatabase) {
                 JSONObject(AsteroidApi.retrofitService.getAsteroidsListAsync().await())
             )
             database.asteroidsDao.insert(*asteroidsList.toTypedArray())
+        }
+    }
+
+    suspend fun deleteAsteroidsFromPreviousDay() {
+        withContext(Dispatchers.IO) {
+            database.asteroidsDao.clear()
         }
     }
 }

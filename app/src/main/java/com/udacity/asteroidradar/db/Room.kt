@@ -2,6 +2,7 @@ package com.udacity.asteroidradar.db
 
 import android.content.Context
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.room.*
 
 
@@ -30,7 +31,7 @@ interface AsteroidDatabaseDao {
     fun getAllAsteroids(): LiveData<List<DatabaseAsteroid>>
 
     @Query("SELECT * FROM asteroids_table ORDER BY id DESC LIMIT 1")
-    fun getAnAsteroid(): DatabaseAsteroid?
+    fun getAnAsteroid(): LiveData<List<DatabaseAsteroid>>
 }
 
 @Database(entities = [DatabaseAsteroid::class], version = 1)

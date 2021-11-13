@@ -51,9 +51,8 @@ fun parseAsteroidsJsonResult(jsonObject: JSONObject): List<DatabaseAsteroid> {
 
 @SuppressLint("WeekBasedYear")
 @RequiresApi(Build.VERSION_CODES.N)
-private fun getNextSevenDaysFormattedDates(): ArrayList<String> {
+fun getNextSevenDaysFormattedDates(): ArrayList<String> {
     val formattedDateList = ArrayList<String>()
-
     val calendar = Calendar.getInstance()
     for (i in 0..Constants.DEFAULT_END_DATE_DAYS) {
         val currentTime = calendar.time

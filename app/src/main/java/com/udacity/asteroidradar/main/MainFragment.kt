@@ -11,7 +11,6 @@ import com.squareup.picasso.Picasso
 import com.udacity.asteroidradar.PictureOfDay
 import com.udacity.asteroidradar.R
 import com.udacity.asteroidradar.databinding.FragmentMainBinding
-import com.udacity.asteroidradar.db.DatabaseAsteroid
 import kotlinx.android.synthetic.main.fragment_main.*
 
 class MainFragment : Fragment() {
@@ -37,14 +36,6 @@ class MainFragment : Fragment() {
         })
         binding.asteroidRecycler.adapter = asteroidAdapter
 
-        viewModel.asteroids.observe(
-            viewLifecycleOwner,
-            Observer<List<DatabaseAsteroid>> { asteroids ->
-                asteroids?.apply {
-                    asteroidAdapter?.asteroids = asteroids
-                }
-            })
-
         viewModel.navigateToDatabaseAsteroidDetails.observe(
             viewLifecycleOwner,
             Observer { _asteroid ->
@@ -68,12 +59,7 @@ class MainFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel.pictureOfTheDay.observe(
-            viewLifecycleOwner,
-            Observer<PictureOfDay> { pictureOfDay ->
-                Picasso.with(requireContext()).load(pictureOfDay.url)
-                    .into(activity_main_image_of_the_day)
-            })
+        loadImageOfTheDay()
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -82,6 +68,20 @@ class MainFragment : Fragment() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return true
+        when (item.itemId) {
+            R.id.show_all_menu -> return true
+            R.id.show_rent_menu -> return true
+            R.id.show_buy_menu -> return true
+        }
+        return false
+    }
+
+    private fun loadImageOfTheDay() {
+        viewModel.pictureOfTheDay.observe(
+            viewLifecycleOwner,
+            Observer<PictureOfDay> { pictureOfDay ->
+                Picasso.with(requireContext()).load(pictureOfDay.url)
+                    .into(activity_main_image_of_the_day)
+            })
     }
 }
