@@ -11,18 +11,32 @@ import com.udacity.asteroidradar.main.AsteroidAdapter
 @BindingAdapter("statusIcon")
 fun bindAsteroidStatusImage(imageView: ImageView, isHazardous: Boolean) {
     if (isHazardous) {
-        imageView.setImageResource(R.drawable.ic_status_potentially_hazardous)
+        imageView.apply {
+            setImageResource(R.drawable.ic_status_potentially_hazardous)
+            contentDescription =
+                imageView.context.getString(R.string.potentially_hazardous_asteroid_image)
+        }
     } else {
-        imageView.setImageResource(R.drawable.ic_status_normal)
+        imageView.apply {
+            setImageResource(R.drawable.ic_status_normal)
+            contentDescription = imageView.context.getString(R.string.not_hazardous_asteroid_image)
+        }
     }
 }
 
 @BindingAdapter("asteroidStatusImage")
 fun bindDetailsStatusImage(imageView: ImageView, isHazardous: Boolean) {
     if (isHazardous) {
-        imageView.setImageResource(R.drawable.asteroid_hazardous)
+        imageView.apply {
+            setImageResource(R.drawable.asteroid_hazardous)
+            contentDescription =
+                imageView.context.getString(R.string.potentially_hazardous_asteroid_image)
+        }
     } else {
-        imageView.setImageResource(R.drawable.asteroid_safe)
+        imageView.apply {
+            setImageResource(R.drawable.asteroid_safe)
+            contentDescription = imageView.context.getString(R.string.not_hazardous_asteroid_image)
+        }
     }
 }
 

@@ -5,6 +5,7 @@ import androidx.annotation.RequiresApi
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
+import com.udacity.asteroidradar.BuildConfig
 import com.udacity.asteroidradar.Constants
 import com.udacity.asteroidradar.PictureOfDay
 import kotlinx.coroutines.Deferred
@@ -49,14 +50,14 @@ private val retrofit = Retrofit.Builder()
 interface AsteroidApiService {
     @GET(Constants.IMAGE_OF_DAY_LINK)
     fun getTodayImage(
-        @Query(Constants.API_KEY_NAME) apiKey: String = Constants.API_KEY
+        @Query(Constants.API_KEY_NAME) apiKey: String = BuildConfig.NASA_API_KEY
     ): Call<PictureOfDay>
 
     @GET(Constants.ASTEROID_LINK)
     fun getAsteroidsListAsync(
         @Query(Constants.START_DATE_KEY) startDate: String = next7DaysFormattedDates[0],
         @Query(Constants.END_DATE_KEY) endDate: String = next7DaysFormattedDates[6],
-        @Query(Constants.API_KEY_NAME) apiKey: String = Constants.API_KEY
+        @Query(Constants.API_KEY_NAME) apiKey: String = BuildConfig.NASA_API_KEY
     ): Deferred<String>
 }
 

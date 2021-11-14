@@ -80,7 +80,10 @@ class MainFragment : Fragment() {
         viewModel.pictureOfTheDay.observe(
             viewLifecycleOwner,
             Observer<PictureOfDay> { pictureOfDay ->
-                Picasso.with(requireContext()).load(pictureOfDay.url)
+                Picasso.with(requireContext())
+                    .load(pictureOfDay.url)
+                    .placeholder(R.drawable.placeholder_picture_of_day)
+                    .error(R.drawable.error_loading_image)
                     .into(activity_main_image_of_the_day)
             })
     }
