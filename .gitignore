@@ -1,0 +1,67 @@
+react-native-packager-cache*
+node_modules
+gradle_deps
+haste-map-react-native-packager*
+# Java
+bin
+target
+
+# RN bundled files
+android/app/src/main/assets/index.bundle
+android/app/src/main/assets/index.bundle.map
+android/app/src/main/assets/index.bundle.meta
+
+# osx noise
+.DS_Store
+*.ipa
+*.swp
+*~.nib
+
+
+# following entries according to
+# http://stackoverflow.com/questions/16736856/what-should-be-in-my-gitignore-for-an-android-studio-project
+
+# built application files
+*.apk
+*.ap_
+
+# files for the dex VM
+*.dex
+
+# Java class files
+*.class
+
+# generated files and dirs
+build/
+bin/
+gen/
+.gradle/
+.gralde/*
+/android/captures
+
+# Local configuration file (sdk path, etc)
+local.properties
+
+# Eclipse project files
+.classpath
+.project
+
+# VS Code
+jsconfig.json
+.vscode
+
+# Android Studio
+.idea/
+/.idea/workspace.xml
+out/
+/local.properties
+/*/local.properties
+/*/out
+/*/*/build
+/*/*/production
+*.iml
+/*.iml
+/*/*.iml
+*.iws
+*.ipr
+*~
